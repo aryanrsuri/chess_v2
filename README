@@ -1,0 +1,4 @@
+Chess Game Represenation in Rust
+
+
+Using a vector representaiton of the board, once that is complete , will use bitboards to learn that better
