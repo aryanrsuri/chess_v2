@@ -2,3 +2,26 @@ Chess Game Represenation in Rust
 
 
 Using a vector representaiton of the board, once that is complete , will use bitboards to learn that better
+
+
+
+r n b q k b n r 
+p p p p p p p p 
+. . . . . . . . 
+. . . . . . . . 
+. . . . . . . . 
+. . . . . . . . 
+P P P P P P P P 
+R N B Q K B N R 
+
+"e2 e4"
+r n b q k b n r 
+p p p p . p p p 
+. . . . . . . . 
+. . . . p . . . 
+. . . . . . . . 
+. . . . . . . . 
+P P P P P P P P 
+R N B Q K B N R 
+
+
