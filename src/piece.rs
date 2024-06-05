@@ -5,7 +5,7 @@ use std::fmt;
 pub struct Piece {
     pub piece: Type,
     pub color: Color,
-    pub position: u8,
+    pub position: usize,
 }
 
 #[derive(PartialEq, Eq, PartialOrd, Copy, Clone, Debug, Hash)]

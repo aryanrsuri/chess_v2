@@ -1,15 +1,69 @@
 use crate::piece::*;
+use core::panic;
 use std::fmt;
+
+#[derive(PartialEq, Eq, PartialOrd, Copy, Clone, Debug, Hash)]
+pub struct Turn {
+    from: usize,
+    attacker: Option<Piece>,
+    to: usize,
+    defender: Option<Piece>,
+}
 // #[derive(PartialEq, Eq, PartialOrd, Copy, Clone, Debug, Hash)]
 pub struct Board(pub Vec<Option<Piece>>);
 impl Board {
     pub fn new() -> Self {
         let mut b = Board(vec![None; 64]);
-        b.set();
+        b.flush();
         b
     }
+    pub fn set(&mut self, input: &str) {
+        let moves: Vec<&str> = input.split(" ").collect();
+        let turn: Turn = self.parse(moves).unwrap();
+        if turn.defender.is_none() && turn.attacker.is_some() {
+            println!("orig {:#?}", self.get(turn.from));
+            let mut attacker = self.0[turn.from].take().unwrap();
+            attacker.position = turn.to;
+            self.0[turn.to] = Some(attacker);
+            println!("new {:#?}", self.get(turn.to))
+        }
+    }
 
-    pub fn set(&mut self) {
+    pub fn get(&mut self, index: usize) -> Option<Piece> {
+        return self.0[index];
+    }
+
+    pub fn parse(&mut self, moves: Vec<&str>) -> Option<Turn> {
+        if moves.len() != 2 {
+            return None;
+        }
+        let from = &moves[0];
+        let mut chars = from.chars();
+        let x = chars.next()?;
+        let y = chars.next()?;
+        let xi = (x as usize) - 'a' as usize;
+        let yi = (y as usize) - '1' as usize;
+        let a = (yi << 3) | xi;
+        let asquare = self.get(a);
+
+        let to = &moves[1];
+        let mut chars = to.chars();
+        let x = chars.next()?;
+        let y = chars.next()?;
+        let xi = (x as usize) - 'a' as usize;
+        let yi = (y as usize) - '1' as usize;
+        let d = (yi << 3) | xi;
+        let dsquare = self.get(d);
+
+        Some(Turn {
+            from: a,
+            attacker: asquare,
+            to: d,
+            defender: dsquare,
+        })
+    }
+
+    pub fn flush(&mut self) {
         self.0[0] = Some(Piece {
             piece: Type::Rook,
             color: Color::Black,
@@ -54,14 +108,14 @@ impl Board {
             self.0[i] = Some(Piece {
                 piece: Type::Pawn,
                 color: Color::Black,
-                position: i as u8,
+                position: i,
             });
         }
         for i in 48..56 {
             self.0[i] = Some(Piece {
                 piece: Type::Pawn,
                 color: Color::White,
-                position: i as u8,
+                position: i,
             });
         }
         self.0[56] = Some(Piece {
