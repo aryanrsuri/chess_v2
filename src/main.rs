@@ -1,10 +1,18 @@
-use std::env;
 mod board;
+mod game;
 mod piece;
 fn main() {
-    let args: Vec<String> = env::args().collect();
     let mut b = board::Board::new();
-    println!("{}", b);
-    b.set(&args[1]);
-    println!("{}", b);
+    println!("Terminal Chess Board!");
+    loop {
+        println!("{}", b);
+        let mut response = String::new();
+        std::io::stdin()
+            .read_line(&mut response)
+            .expect("Failed to read");
+        if response == "surrender" {
+            break;
+        }
+        b.set(&response);
+    }
 }
