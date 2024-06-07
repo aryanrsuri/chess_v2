@@ -1,5 +1,6 @@
-use crate::piece::*;
-use core::panic;
+use crate::piece::Color;
+use crate::piece::Piece;
+use crate::piece::Type;
 use std::fmt;
 
 #[derive(PartialEq, Eq, PartialOrd, Copy, Clone, Debug, Hash)]
@@ -18,21 +19,27 @@ impl Board {
         b.flush();
         b
     }
-    pub fn set(&mut self, input: &str) {
+    pub fn set(&mut self, input: &str, side: Color) -> bool {
         let moves: Vec<&str> = input.split(" ").collect();
         let turn: Turn = self.parse(moves).unwrap();
-        if turn.defender.is_none() && turn.attacker.is_some() {
+        if turn.defender.is_none()
+            && turn.attacker.is_some()
+            && turn.attacker.unwrap().color == side
+        {
             let mut attacker = self.0[turn.from].take().unwrap();
             attacker.position = turn.to;
             self.0[turn.to] = Some(attacker);
+
+            return true;
         }
+        false
     }
 
-    pub fn get(&mut self, index: usize) -> Option<Piece> {
+    fn get(&mut self, index: usize) -> Option<Piece> {
         return self.0[index];
     }
 
-    pub fn parse(&mut self, moves: Vec<&str>) -> Option<Turn> {
+    fn parse(&mut self, moves: Vec<&str>) -> Option<Turn> {
         if moves.len() != 2 {
             return None;
         }
@@ -62,7 +69,7 @@ impl Board {
         })
     }
 
-    pub fn flush(&mut self) {
+    fn flush(&mut self) {
         self.0[0] = Some(Piece {
             piece: Type::Rook,
             color: Color::White,

@@ -25,7 +25,7 @@ pub enum Color {
 }
 
 impl Type {
-    pub fn to_string(&self, color: Color) -> String {
+    fn to_string(&self, color: Color) -> String {
         let ty = format!("{}", self);
         if color == Color::White {
             ty.to_uppercase()

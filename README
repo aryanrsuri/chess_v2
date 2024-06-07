@@ -1,35 +1,56 @@
-Chess Game Represenation in Rust
+Chess Game Represenation in Rust!
 
-Using a vector representaiton of the board, once that is complete , will use bitboards to learn that better
+* Game object (board, state)
+* Board object (Vector of pieces)
+* Piece object (type, color, position)
 
+NOTE: Using a vector representation of the board, once that is complete , will use bitboards to learn that better
+
+----------------------------
 Terminal Chess Board!
 
-r n b q k b n r 
-p p p p p p p p 
-. . . . . . . . 
-. . . . . . . . 
-. . . . . . . . 
-. . . . . . . . 
-P P P P P P P P 
-R N B Q K B N R 
+r n b q k b n r
+p p p p p p p p
+. . . . . . . .
+. . . . . . . .
+. . . . . . . .
+. . . . . . . .
+P P P P P P P P
+R N B Q K B N R
+
+White to move:
 e2 e4
 
-r n b q k b n r 
-p p p p p p p p 
-. . . . . . . . 
-. . . . . . . . 
-. . . . P . . . 
-. . . . . . . . 
-P P P P . P P P 
-R N B Q K B N R 
+r n b q k b n r
+p p p p p p p p
+. . . . . . . .
+. . . . . . . .
+. . . . P . . .
+. . . . . . . .
+P P P P . P P P
+R N B Q K B N R
+
+Black to move:
 e7 e5
 
-r n b q k b n r 
-p p p p . p p p 
-. . . . . . . . 
-. . . . p . . . 
-. . . . P . . . 
-. . . . . . . . 
-P P P P . P P P 
-R N B Q K B N R 
+r n b q k b n r
+p p p p . p p p
+. . . . . . . .
+. . . . p . . .
+. . . . P . . .
+. . . . . . . .
+P P P P . P P P
+R N B Q K B N R
 
+White to move:
+e7 e5
+Illegal move, try again
+
+r n b q k b n r
+p p p p . p p p
+. . . . . . . .
+. . . . p . . .
+. . . . P . . .
+. . . . . . . .
+P P P P . P P P
+R N B Q K B N R
