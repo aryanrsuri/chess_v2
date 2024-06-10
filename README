@@ -1,10 +1,6 @@
-Chess Game Represenation in Rust!
+Chess Game Represenation in Rust
 
-* Game object (board, state)
-* Board object (Vector of pieces)
-* Piece object (type, color, position)
-
-NOTE: Using a vector representation of the board, once that is complete , will use bitboards to learn that better
+See CHANGELOG for more details
 
 --Preview--
 

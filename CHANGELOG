@@ -1,4 +1,8 @@
-[ TODO ]
+[ MANIFEST ]
+Changelog for Chess in Rust project. Represents the entire project.
+I follow a modified (simpler) semantic versioning system: RELEASE.FEATURE/COMMIT
+
+[ UNRELEASED ]
 Validation/Captures 
   * Establish legal moves for each piece
   * Board Conditions
@@ -22,12 +26,8 @@ Engine
   * minimax
   * a-b pruning
 
-[ REFLOG ]
-0360ddb HEAD@{0}: commit: Added padding for board display
-d8b718e HEAD@{1}: commit: Updated TODO and added algebra to board display
-6787284 HEAD@{3}: commit: Added to README
-d59c74d HEAD@{4}: commit: Made game loop, added game file, fixed printing
-45afb61 HEAD@{5}: commit: readme update
-4604e1d HEAD@{6}: commit: simple parse to turn to set position
-00a5392 HEAD@{7}: commit (initial): chess rust v3
+[ ADDED ]
+v0.2/0360ddb Finished board terminal formatting
+v0.1/d59c74d Made game loop, board and piece improvements
+v0.0/00a5392 Initial Piece struct
 
