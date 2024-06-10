@@ -2,7 +2,7 @@
 Changelog for Chess in Rust project. Represents the entire project.
 I follow a modified (simpler) semantic versioning system: RELEASE.FEATURE/COMMIT
 
-[ UNRELEASED ]
+[ TODO ]
 Validation/Captures 
   * Establish legal moves for each piece
   * Board Conditions
@@ -25,6 +25,9 @@ Bitboard
 Engine
   * minimax
   * a-b pruning
+
+[ UNRELEASED ]
+v0.3/3dde329 Implemented pawn move validation
 
 [ ADDED ]
 v0.2/0360ddb Finished board terminal formatting
