@@ -1,0 +1,33 @@
+[ TODO ]
+Validation/Captures 
+  * Establish legal moves for each piece
+  * Board Conditions
+    * En Pessant ( or is this a piece move)
+    * Castling Rights
+    * Stalemate
+    * Check
+    * Checkmate
+    * Pawn promotion
+  * is turn a legal move ?
+  * is this a legal capture ?
+Input
+  * Make it easier to input moves?
+  * Insted of b1 -> c3 (square->square) input, it should be kb1 -> c3 (piece->square) to be clearer
+Serialisation
+  * serialise to data format to pause/resume/export game state
+Bitboard
+  * Write a bitboard re-representation of Chess
+  ( This will be useful for implementing engine, and general skill ) 
+Engine
+  * minimax
+  * a-b pruning
+
+[ REFLOG ]
+0360ddb HEAD@{0}: commit: Added padding for board display
+d8b718e HEAD@{1}: commit: Updated TODO and added algebra to board display
+6787284 HEAD@{3}: commit: Added to README
+d59c74d HEAD@{4}: commit: Made game loop, added game file, fixed printing
+45afb61 HEAD@{5}: commit: readme update
+4604e1d HEAD@{6}: commit: simple parse to turn to set position
+00a5392 HEAD@{7}: commit (initial): chess rust v3
+

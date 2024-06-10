@@ -4,7 +4,7 @@ mod piece;
 fn main() {
     let mut g = game::Game::new();
     println!("Terminal Chess Board!");
-    while g.state == true {
+    while g.state {
         println!("{}\n", g.board);
         println!("{:?} to move:", g.turn);
         let mut response = String::new();

@@ -11,6 +11,7 @@ pub struct Turn {
     to: usize,
     defender: Option<Piece>,
 }
+
 // #[derive(PartialEq, Eq, PartialOrd, Copy, Clone, Debug, Hash)]
 pub struct Board(pub Vec<Option<Piece>>);
 impl Board {
@@ -36,7 +37,7 @@ impl Board {
     }
 
     fn get(&mut self, index: usize) -> Option<Piece> {
-        return self.0[index];
+        self.0[index]
     }
 
     fn parse(&mut self, moves: Vec<&str>) -> Option<Turn> {
