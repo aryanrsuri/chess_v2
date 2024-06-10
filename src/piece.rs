@@ -6,6 +6,7 @@ pub struct Piece {
     pub piece: Type,
     pub color: Color,
     pub position: usize,
+    pub moved: bool,
 }
 
 #[derive(PartialEq, Eq, PartialOrd, Copy, Clone, Debug, Hash)]

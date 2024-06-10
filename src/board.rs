@@ -23,14 +23,10 @@ impl Board {
     pub fn set(&mut self, input: &str, side: Color) -> bool {
         let moves: Vec<&str> = input.split(" ").collect();
         let turn: Turn = self.parse(moves).unwrap();
-        if turn.defender.is_none()
-            && turn.attacker.is_some()
-            && turn.attacker.unwrap().color == side
-        {
+        if self.valid(&turn, side) {
             let mut attacker = self.0[turn.from].take().unwrap();
             attacker.position = turn.to;
             self.0[turn.to] = Some(attacker);
-
             return true;
         }
         false
@@ -38,6 +34,37 @@ impl Board {
 
     fn get(&mut self, index: usize) -> Option<Piece> {
         self.0[index]
+    }
+
+    fn valid(&self, turn: &Turn, side: Color) -> bool {
+        /* Non-Collision Validation:
+         *! Defender is none
+         * Attacker is a piece
+         * Attacker piece is the same color of side (could be abstracted)
+         * */
+        if turn.defender.is_none()
+            && turn.attacker.is_some()
+            && turn.attacker.unwrap().color == side
+        {
+            let aln = turn.from % 8 == turn.to % 8;
+            let atk = turn.attacker.unwrap();
+            match atk {
+                Piece {
+                    position: _,
+                    piece: Type::Pawn,
+                    color: _,
+                    moved: _,
+                } => {
+                    let max = if atk.moved { 1 } else { 2 };
+                    let del = ((turn.to >> 3) as isize - (turn.from >> 3) as isize).abs();
+                    if aln && del <= max {
+                        return true;
+                    }
+                }
+                _ => return true,
+            }
+        }
+        false
     }
 
     fn parse(&mut self, moves: Vec<&str>) -> Option<Turn> {
@@ -75,41 +102,49 @@ impl Board {
             piece: Type::Rook,
             color: Color::White,
             position: 0,
+            moved: false,
         });
         self.0[1] = Some(Piece {
             piece: Type::Knight,
             color: Color::White,
             position: 1,
+            moved: false,
         });
         self.0[2] = Some(Piece {
             piece: Type::Bishop,
             color: Color::White,
             position: 2,
+            moved: false,
         });
         self.0[3] = Some(Piece {
             piece: Type::Queen,
             color: Color::White,
             position: 3,
+            moved: false,
         });
         self.0[4] = Some(Piece {
             piece: Type::King,
             color: Color::White,
             position: 4,
+            moved: false,
         });
         self.0[5] = Some(Piece {
             piece: Type::Bishop,
             color: Color::White,
             position: 5,
+            moved: false,
         });
         self.0[6] = Some(Piece {
             piece: Type::Knight,
             color: Color::White,
             position: 6,
+            moved: false,
         });
         self.0[7] = Some(Piece {
             piece: Type::Rook,
             color: Color::White,
             position: 7,
+            moved: false,
         });
 
         for i in 8..16 {
@@ -117,6 +152,7 @@ impl Board {
                 piece: Type::Pawn,
                 color: Color::White,
                 position: i,
+                moved: false,
             });
         }
 
@@ -125,6 +161,7 @@ impl Board {
                 piece: Type::Pawn,
                 color: Color::Black,
                 position: i,
+                moved: false,
             });
         }
 
@@ -132,41 +169,49 @@ impl Board {
             piece: Type::Rook,
             color: Color::Black,
             position: 56,
+            moved: false,
         });
         self.0[57] = Some(Piece {
             piece: Type::Knight,
             color: Color::Black,
             position: 57,
+            moved: false,
         });
         self.0[58] = Some(Piece {
             piece: Type::Bishop,
             color: Color::Black,
             position: 58,
+            moved: false,
         });
         self.0[59] = Some(Piece {
             piece: Type::Queen,
             color: Color::Black,
             position: 59,
+            moved: false,
         });
         self.0[60] = Some(Piece {
             piece: Type::King,
             color: Color::Black,
             position: 60,
+            moved: false,
         });
         self.0[61] = Some(Piece {
             piece: Type::Bishop,
             color: Color::Black,
             position: 61,
+            moved: false,
         });
         self.0[62] = Some(Piece {
             piece: Type::Knight,
             color: Color::Black,
             position: 62,
+            moved: false,
         });
         self.0[63] = Some(Piece {
             piece: Type::Rook,
             color: Color::Black,
             position: 63,
+            moved: false,
         });
     }
 }
@@ -186,7 +231,7 @@ impl fmt::Display for Board {
                 write!(f, ". ")?;
             }
         }
-        write!(f, "\n\n  a b c d e f g h")?;
+        write!(f, "\n\n   a b c d e f g h")?;
         Ok(())
     }
 }
