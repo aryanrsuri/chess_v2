@@ -177,7 +177,7 @@ impl fmt::Display for Board {
             let c = x % 8;
             let i = (r << 3) | c;
             if c == 0 {
-                write!(f, "\n{} ", r + 1)?;
+                write!(f, "\n{}  ", r + 1)?;
             }
             if let Some(piece) = self.0[i] {
                 write!(f, "{} ", piece)?;
@@ -185,7 +185,7 @@ impl fmt::Display for Board {
                 write!(f, ". ")?;
             }
         }
-        write!(f, "\n  a b c d e f g h")?;
+        write!(f, "\n\n  a b c d e f g h")?;
         Ok(())
     }
 }
