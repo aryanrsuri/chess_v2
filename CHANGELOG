@@ -27,9 +27,9 @@ Engine
   * a-b pruning
 
 [ UNRELEASED ]
-v0.3/3dde329 Implemented pawn move validation
 
-[ ADDED ]
+[ RELEASED ]
+v0.3/3dde329 Implemented pawn move validation
 v0.2/0360ddb Finished board terminal formatting
 v0.1/d59c74d Made game loop, board and piece improvements
 v0.0/00a5392 Initial Piece struct
