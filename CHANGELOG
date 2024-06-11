@@ -2,6 +2,9 @@
 Changelog for Chess in Rust project. Represents the entire project.
 I follow a modified (simpler) semantic versioning system: RELEASE.FEATURE/COMMIT
 
+[ GLOSSARY ]
+(non-)collision: whether the defender in a turn is Some(Piece) or None
+
 [ TODO ]
 Validation/Captures 
   * Establish legal moves for each piece
@@ -27,7 +30,8 @@ Engine
   * a-b pruning
 
 [ RELEASED ]
-v0.3/3dde329 Implemented pawn move validation
+v0.4/a5a3e31 Implemented collision pawn move validation (sans En Pessant)
+v0.3/3dde329 Implemented non-collision pawn move validation
 v0.2/0360ddb Finished board terminal formatting
 v0.1/d59c74d Made game loop, board and piece improvements
 v0.0/00a5392 Initial Piece struct
