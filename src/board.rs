@@ -4,7 +4,6 @@ use crate::piece::Type;
 use std::fmt;
 
 #[derive(PartialEq, Eq, PartialOrd, Copy, Clone, Debug, Hash)]
-
 pub struct Turn {
     from: usize,
     attacker: Option<Piece>,
@@ -12,7 +11,14 @@ pub struct Turn {
     defender: Option<Piece>,
 }
 
-// #[derive(PartialEq, Eq, PartialOrd, Copy, Clone, Debug, Hash)]
+/* This is a way to implement a history of captures:
+* (true, none)
+* (true, some)
+* (false, none)
+* >> pub struct Res(bool, Option<Piece>);
+* */
+
+#[derive(Debug)]
 pub struct Board(pub Vec<Option<Piece>>);
 impl Board {
     pub fn new() -> Self {
@@ -26,6 +32,7 @@ impl Board {
         if self.valid(&turn, side) {
             let mut attacker = self.0[turn.from].take().unwrap();
             attacker.position = turn.to;
+            attacker.moved = true;
             self.0[turn.to] = Some(attacker);
             return true;
         }
@@ -38,7 +45,7 @@ impl Board {
 
     fn valid(&self, turn: &Turn, side: Color) -> bool {
         /* Non-Collision Validation:
-         *! Defender is none
+         * Defender is none
          * Attacker is a piece
          * Attacker piece is the same color of side (could be abstracted)
          * */
@@ -46,23 +53,54 @@ impl Board {
             && turn.attacker.is_some()
             && turn.attacker.unwrap().color == side
         {
-            let aln = turn.from % 8 == turn.to % 8;
-            let atk = turn.attacker.unwrap();
-            match atk {
+            let attacker = turn.attacker.unwrap();
+            return match attacker {
                 Piece {
                     position: _,
                     piece: Type::Pawn,
                     color: _,
                     moved: _,
                 } => {
-                    let max = if atk.moved { 1 } else { 2 };
+                    let max = if attacker.moved { 1 } else { 2 };
+                    let aln = turn.from % 8 == turn.to % 8;
                     let del = ((turn.to >> 3) as isize - (turn.from >> 3) as isize).abs();
                     if aln && del <= max {
                         return true;
                     }
+                    return false;
                 }
-                _ => return true,
-            }
+                _ => true,
+            };
+        }
+        /* Collision Validation:
+         * Defender is a piece
+         * Attacker is a piece
+         * Attacker piece is the same color of side (could be abstracted)
+         * */
+        if turn.defender.is_some()
+            && turn.attacker.is_some()
+            && turn.attacker.unwrap().color == side
+            && turn.defender.unwrap().color != turn.attacker.unwrap().color
+        {
+            println!("Collision Possibility");
+            let attacker = turn.attacker.unwrap();
+            return match attacker {
+                Piece {
+                    position: _,
+                    piece: Type::Pawn,
+                    color: _,
+                    moved: _,
+                } => {
+                    let aln = ((turn.from % 8) as isize - (turn.to % 8) as isize).abs() == 1;
+                    let del = ((turn.to >> 3) as isize - (turn.from >> 3) as isize).abs();
+                    // No condition for En pessant
+                    if aln && del == 1 {
+                        return true;
+                    }
+                    return false;
+                }
+                _ => false,
+            };
         }
         false
     }
@@ -231,7 +269,7 @@ impl fmt::Display for Board {
                 write!(f, ". ")?;
             }
         }
-        write!(f, "\n\n   a b c d e f g h")?;
+        write!(f, "\n\n      a b c d e f g h")?;
         Ok(())
     }
 }

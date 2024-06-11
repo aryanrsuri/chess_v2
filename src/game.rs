@@ -17,13 +17,11 @@ impl Game {
     }
 
     pub fn pass(&mut self, input: &str) {
-        let success = self.board.set(input, self.turn);
+        let success = self.board.set(input.trim(), self.turn);
         if !success {
             println!("Illegal move, try again");
             return;
         }
-
-        // Perhaps piece color (and turn) should just be a boolean to make this trivial
         if self.turn == piece::Color::White {
             self.turn = piece::Color::Black
         } else {
