@@ -30,6 +30,7 @@ Engine
   * a-b pruning
 
 [ RELEASED ]
+v0.5/75e7e08 Fixed king-queen inital positions
 v0.4/a5a3e31 Implemented collision pawn move validation (sans En Pessant)
 v0.3/3dde329 Implemented non-collision pawn move validation
 v0.2/0360ddb Finished board terminal formatting
