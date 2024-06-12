@@ -155,13 +155,13 @@ impl Board {
             moved: false,
         });
         self.0[3] = Some(Piece {
-            piece: Type::Queen,
+            piece: Type::King,
             color: Color::White,
             position: 3,
             moved: false,
         });
         self.0[4] = Some(Piece {
-            piece: Type::King,
+            piece: Type::Queen,
             color: Color::White,
             position: 4,
             moved: false,
@@ -222,13 +222,13 @@ impl Board {
             moved: false,
         });
         self.0[59] = Some(Piece {
-            piece: Type::Queen,
+            piece: Type::King,
             color: Color::Black,
             position: 59,
             moved: false,
         });
         self.0[60] = Some(Piece {
-            piece: Type::King,
+            piece: Type::Queen,
             color: Color::Black,
             position: 60,
             moved: false,
