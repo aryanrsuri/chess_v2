@@ -18,6 +18,20 @@ pub struct Turn {
 * >> pub struct Res(bool, Option<Piece>);
 * */
 
+/*
+ * Chess board, indexed.
+ *
+ * 56 57 58 59 60 61 62 63
+ * 48 49 50 51 52 53 54 55
+ * 40 41 42 43 44 45 46 47
+ * 32 33 34 35 36 37 38 39
+ * 24 25 26 27 28 29 30 31
+ * 16 17 18 19 20 21 22 23
+ * 8  9  10 11 12 13 14 15
+ * 0  1  2  3  4  5  7  8
+ *
+ * */
+
 #[derive(Debug)]
 pub struct Board(pub Vec<Option<Piece>>);
 impl Board {
@@ -43,6 +57,54 @@ impl Board {
         self.0[index]
     }
 
+    fn collides(&self, turn: &Turn) -> bool {
+        /* Determines whether the piece collides with another piece of the same color
+         * >> a1 a3 (pawn on a2)
+         * >> true  (rook will collide with a pawn)
+         * Find all indexes between the column movement
+         * Fina all indexes between diagonal movement
+         * and all index between the row movement. If there are any pieces of the same
+         * attacker colour (ignoring Knight) then collides = true
+         * */
+        if turn.attacker.unwrap().piece == Type::Knight {
+            return false;
+        }
+        // There probably is a more terse and effecient way to do this
+        let from_col = turn.from % 8;
+        let from_row = turn.from >> 3;
+        let to_col = turn.to % 8;
+        let to_row = turn.to >> 3;
+        let y_aln: bool = from_col == to_col;
+        let x_aln: bool = from_row == to_row;
+        if y_aln {
+            let indeces = ((turn.to as isize - turn.from as isize).abs() >> 3) as usize;
+            let op: isize = if turn.attacker.unwrap().color == Color::White {
+                1
+            } else {
+                -1
+            };
+            for x in 1..indeces {
+                let pass = (turn.from as isize + op * (8 * x as isize)) as usize;
+                if self.0[pass].is_some_and(|p| p.color == turn.attacker.unwrap().color) {
+                    return true;
+                }
+            }
+        }
+        // !TODO: Implement X alignment collision
+        if x_aln {
+            let indeces = ((turn.to as isize - turn.from as isize).abs() >> 3) as usize;
+            let op: isize = if turn.attacker.unwrap().color == Color::White {
+                1
+            } else {
+                -1
+            };
+            for x in 1..indeces {
+                println!("{}", turn.from as isize + op * (8 * x as isize));
+            }
+        }
+        false
+    }
+
     fn valid(&self, turn: &Turn, side: Color) -> bool {
         /* Non-Collision Validation:
          * Defender is none
@@ -52,6 +114,7 @@ impl Board {
         if turn.defender.is_none()
             && turn.attacker.is_some()
             && turn.attacker.unwrap().color == side
+            && !self.collides(&turn)
         {
             let attacker = turn.attacker.unwrap();
             return match attacker {
@@ -81,8 +144,9 @@ impl Board {
             && turn.attacker.is_some()
             && turn.attacker.unwrap().color == side
             && turn.defender.unwrap().color != turn.attacker.unwrap().color
+            && !self.collides(&turn)
         {
-            println!("Collision Possibility");
+            // println!("Collision Possibility");
             let attacker = turn.attacker.unwrap();
             return match attacker {
                 Piece {
